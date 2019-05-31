@@ -11,10 +11,8 @@ notifications:
   email:
     recipients:
       - mm8348@nyu.edu
+      - nl1652@nyu.edu
     on_success: always
     on_failure: never
 
-    recipients:
-      - nl1652@nyu.edu
-    on_success: always
-    on_failure: always  
+ 
