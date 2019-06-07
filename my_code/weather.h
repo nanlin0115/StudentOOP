@@ -1,6 +1,6 @@
 #ifndef WEATHER_H
 #define WEATHER_H
-
+#include <vector>
 #include <string>
 
 struct GPS {
@@ -11,6 +11,32 @@ struct GPS {
 };
 
 std::ostream& operator<<(std::ostream& os, const GPS& gps);
+
+class Date{
+    friend std::ostream& operator<<(std::ostream& os, const Date& date);
+public:
+    Date (int d, int m, int y);
+private:
+    int day;
+    int month;
+    int year;
+};
+
+
+class WReading {
+    friend std::ostream& operator<<(std::ostream& os, const WReading& wr);
+public:
+    WReading (Date dt, double temp, double hum, double ws):
+    date(dt), temperature(temp), humidity(hum), windspeed(ws)
+    {
+    }
+private:
+    Date date;
+    double temperature; // stored temp in C
+    double humidity;
+    double windspeed;
+};
+
 
 const int UNRATED = -1;
 const int BAD = 0;
@@ -24,7 +50,10 @@ public:
     std::string get_name() const;
     int get_rating() const;
     void set_rating(int new_rating);
+    void add_reading(WReading wr);
+    
 private:
+    std::vector<WReading> wreadings;
     std::string station_nm;
     GPS my_loc;
     int rating = UNRATED;
