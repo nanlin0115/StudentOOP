@@ -13,9 +13,63 @@
 
 using namespace std;
 
+const double C_TO_F = (9/5);
+const double F_TO_C = 5/9;
+
+Image::Image(int w, int h, std::string flnm)
+:width(w),height(h){
+    filename = flnm;
+    image_buf = new char[image_sz()];
+}
+// copy constructor:
+Image::Image(const Image& img2){
+    height = img2.height;
+    width = img2.width;
+    filename = img2.filename;
+    image_buf = new char[image_sz()];
+    for (int i = 0; i < 1000;i++){
+        image_buf[i] = img2.image_buf[i];
+    }
+}
+Image::~Image(){
+    if (image_buf != nullptr) delete image_buf;
+}
+Image& Image::operator=(const Image& img2){
+    if (&img2 != this){
+        if (image_buf != nullptr) delete image_buf;
+        height = img2.height;
+        width = img2.width;
+        filename = img2.filename;
+        image_buf = new char[image_sz()];
+        for (int i = 0; i<1000;i++){
+            image_buf[i] = img2.image_buf[i];
+        }
+    }
+    return *this;
+}
+
+int Image::image_sz(){
+    return width*height;
+}
+
+/*
+ * Setting `display() = 0` here makes this an abstract
+ * class that can't be implemented.
+ * */
+string Image::display(string s){
+    return "Displaying Image"+s;
+}
+
+
+double WReading::get_tempF(){
+    return((temperature * C_TO_F) + 32);
+}
+
 /*
  *Date Class:
- * */
+ * *
+ **/
+
 Date :: Date(int d, int m, int y){
     if ((d < 1) || (d > 31)) throw d;
     if ((m < 1) || (m > 12)) throw m;
@@ -30,11 +84,14 @@ ostream& operator<<(ostream& os, const Date& date){
     return os;
 }
 
+
+
 /*
  * WReading class: weather readings
  **/
+
 ostream& operator<<(ostream& os, const WReading& wr){
-    os <<wr.date<<": \nTemperature:"<< wr.temperature <<";  Humidity.:" << wr.humidity<<"； Windspeed:" << wr.windspeed;
+    os <<wr.date<<": \nTemperature: "<< wr.temperature <<";  Humidity: " << wr.humidity<<"； Windspeed: " << wr.windspeed<<endl;
     return os;
 }
 
@@ -64,6 +121,7 @@ void Weather::set_rating(int new_rating){
 void Weather::add_reading(WReading wr){
     wreadings.push_back(wr);
 }
+
 
 ostream& operator<<(ostream& os, const Weather& w) {
     int r = w.get_rating();
