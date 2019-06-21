@@ -14,7 +14,9 @@
 using namespace std;
 
 const double C_TO_F = (9/5);
-const double F_TO_C = 5/9;
+//const double F_TO_C = 5/9;
+
+
 
 Image::Image(int w, int h, std::string flnm)
 :width(w),height(h){
@@ -56,10 +58,18 @@ int Image::image_sz(){
  * Setting `display() = 0` here makes this an abstract
  * class that can't be implemented.
  * */
-string Image::display(string s){
-    return "Displaying Image"+s;
+void Image::display(){
+    cout<< "Displaying Image"<<endl;
 }
-
+void Gif::display(){
+    cout << "Displaying Gif"<<endl;
+}
+void Jpeg::display(){
+    cout << "Displaying Jpeg"<<endl;
+}
+void Png::display(){
+    cout << "Displaying Png" << endl;
+}
 
 double WReading::get_tempF(){
     return((temperature * C_TO_F) + 32);
@@ -120,6 +130,15 @@ void Weather::set_rating(int new_rating){
 }
 void Weather::add_reading(WReading wr){
     wreadings.push_back(wr);
+}
+void WReading::display_image(){
+    if (img) img->display();
+    else cout<<"No image"<<endl;
+}
+void Weather::display_images(){
+    for (WReading wr:wreadings){
+        wr.display_image();
+    }
 }
 
 
