@@ -12,11 +12,9 @@
 
 using namespace std;
 
-
 void print_vect(vect v){
-    for (int i = 0; i < v.size(); i++) {
-        cout << v.data[i]<<" ";
-    }
+    for (int i :v) cout << i <<" ";
+    cout << endl;
 }
 
 vect::vect(){
@@ -31,14 +29,20 @@ vect::vect(const vect& v2){
     data = new int[capacity];
     //copy over existing data
     for (int i = 0; i < size();i++){
-       data[i] = v2.data[i];
+        data[i] = v2.data[i];
     }
 }
 
 vect::~vect(){
     delete[] data;
 }
-
+vect::vect(int sz,int val):sz(sz){
+    capacity =DEF_CAPACITY + sz;
+    data = new int[DEF_CAPACITY + sz];
+    for(int i = 0; i<sz;i++){
+        data[i]=val;
+    }
+}
 vect& vect::operator=(const vect& v2){
     if (&v2 != this){
         delete [] data;
@@ -56,11 +60,11 @@ vect& vect::operator=(const vect& v2){
 bool operator == (const vect& v1,const vect&v2){
     for (int i = 0; i<v2.size();i++){
         if (v1.data[i]!=v2.data[i]){
-                                return false;
-                                }
+            return false;
+        }
     }
     
-                                return true;
+    return true;
 }
 
 void vect::push_back(int val){
@@ -87,4 +91,17 @@ int vect::operator[](int i) const{
 int& vect::operator[](int i){
     return data[i];
 }
- 
+
+bool operator !=(vect::Iterator& rhs, vect::Iterator& lhs) {
+    return rhs.iptr != lhs.iptr;
+}
+
+vect::Iterator::Iterator(int* ip) : iptr(ip) {
+}
+
+vect::Iterator vect::begin() const{
+    return Iterator(data);
+}
+vect::Iterator vect::end() const{
+    return Iterator(data+sz);
+}

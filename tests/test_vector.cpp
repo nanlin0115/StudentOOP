@@ -28,17 +28,20 @@ int main() {
     assert(v3[1] == 18);
     
     vect v2 = v;
-    cout << "V: ";
-    print_vect(v);
-    cout << endl << "V2: ";
     print_vect(v2);
     assert(v2 == v);
     
     v2 = v3;
-    cout <<endl<< "V3:";
-    print_vect(v3);
-    cout << endl<<"V2:";
     print_vect(v2);
-    cout <<endl;
     assert(v2 == v3);
+    
+    for (int i : v3) {
+        assert((i % 9) == 0);
+    }
+    
+    vect v4 = vect(20,20);
+    print_vect(v4);
+    for (int i : v4) {
+        assert(i == 20);
+    }
 }
