@@ -10,6 +10,7 @@ const bool DEBUGG = true;
 int main() {
     cout << "Input a complex number:\n";
     Complex c1{12, 13};
+    //travis can't cin
     // get a complex from stdin:
     //    cin >> c1;
     //    if(!cin)
